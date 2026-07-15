@@ -1,0 +1,59 @@
+name: Claude Issue Triage
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Ensure labels exist
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for l in bug enhancement question documentation gameplay rendering performance needs-info; do
+            gh label create "$l" --repo "${{ github.repository }}" --force >/dev/null 2>&1 || true
+          done
+
+      - name: Run Claude Issue Triage
+        id: claude-triage
+        uses: anthropics/claude-code-action@v1
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: '--allowed-tools "Bash(gh issue edit:*),Bash(gh issue comment:*),Bash(gh issue view:*)"'
+          prompt: |
+            Analiza el issue #${{ github.event.issue.number }} de este repositorio (${{ github.repository }}).
+
+            Este proyecto es un Tetris en JavaScript vanilla (ver CLAUDE.md para arquitectura:
+            index.html, style.css, game.js).
+
+            Pasos:
+            1. Lee el título y cuerpo del issue con `gh issue view ${{ github.event.issue.number }}`.
+            2. Elige entre 1 y 3 labels QUE YA EXISTAN de esta lista fija (no crees labels nuevos,
+               no uses otros nombres): bug, enhancement, question, documentation, gameplay,
+               rendering, performance, needs-info.
+               Aplica los labels elegidos con `gh issue edit ${{ github.event.issue.number }} --add-label "..."`.
+            3. Publica UN comentario en español en el issue con
+               `gh issue comment ${{ github.event.issue.number }} --body "..."` que contenga un
+               diagnóstico general:
+               - Resumen breve del problema o petición.
+               - Causa probable (si aplica) o alcance del cambio.
+               - Archivos/áreas de game.js, index.html o style.css probablemente afectadas.
+               - Pasos sugeridos de alto nivel para implementar la solución (sin escribir código,
+                 solo orientación para el desarrollo posterior).
+
+            No modifiques el cuerpo del issue. No cierres el issue. Si el issue ya tiene un
+            comentario de diagnóstico tuyo previo (por una edición), puedes publicar uno nuevo
+            actualizado en vez de duplicar innecesariamente el análisis.
