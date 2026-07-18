@@ -49,6 +49,16 @@
             <span class="slider"></span>
           </label>
         </div>
+
+        <div class="panel-section records">
+          <span class="label">RECORDS</span>
+          <ol id="highscores-list" class="highscores-list"></ol>
+          <div class="records-stats">
+            <span class="records-stat">Mejor combo: <span id="best-combo">0</span></span>
+            <span class="records-stat">Máx. líneas: <span id="max-lines">0</span></span>
+          </div>
+          <button id="reset-records-btn">Reiniciar records</button>
+        </div>
       </aside>
     </div>
 
@@ -56,6 +66,10 @@
       <div class="overlay-box">
         <p id="overlay-title">GAME OVER</p>
         <p id="overlay-score"></p>
+        <div id="save-score" class="save-score hidden">
+          <input type="text" id="player-name-input" maxlength="10" placeholder="Tu nombre" />
+          <button id="save-score-btn">Guardar</button>
+        </div>
         <button id="restart-btn">Reiniciar</button>
       </div>
     </div>

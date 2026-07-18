@@ -252,3 +252,107 @@ kbd {
 #restart-btn:hover {
   background: var(--btn-hover);
 }
+
+/* ---- Records / high scores ---- */
+.highscores-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  counter-reset: hs-counter;
+}
+
+.highscores-list li {
+  counter-increment: hs-counter;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  color: var(--controls-color);
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.highscores-list li::before {
+  content: counter(hs-counter) '.';
+  color: var(--label-color);
+  margin-right: 4px;
+}
+
+.highscores-list li.highscore-current {
+  color: var(--value-color);
+  font-weight: 700;
+}
+
+.highscores-empty {
+  font-size: 11px;
+  color: var(--label-color);
+}
+
+.records-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  color: var(--controls-color);
+}
+
+.records-stats .records-stat span {
+  color: var(--value-color);
+  font-weight: 700;
+}
+
+#reset-records-btn {
+  background: transparent;
+  color: var(--label-color);
+  border: 1px solid var(--kbd-border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: background 0.15s, color 0.15s;
+}
+
+#reset-records-btn:hover {
+  background: var(--kbd-bg);
+  color: var(--text);
+}
+
+/* ---- Guardar puntuación ---- */
+.save-score {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.save-score.hidden {
+  display: none;
+}
+
+#player-name-input {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--kbd-border);
+  background: var(--kbd-bg);
+  color: var(--text);
+  width: 110px;
+}
+
+#save-score-btn {
+  background: var(--btn-bg);
+  color: var(--btn-color);
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: background 0.15s;
+}
+
+#save-score-btn:hover {
+  background: var(--btn-hover);
+}
