@@ -198,6 +198,24 @@ kbd {
   transform: translateX(18px);
 }
 
+/* ---- Selector de skin ---- */
+.skin-select {
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#skin-select {
+  background: var(--kbd-bg);
+  color: var(--text);
+  border: 1px solid var(--kbd-border);
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
 /* ---- Overlay ---- */
 .overlay {
   position: absolute;
